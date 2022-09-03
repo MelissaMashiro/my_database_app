@@ -30,14 +30,18 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             RoundedButton(
               text: 'DELETE DATA',
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, NamedRoute.users_list_page);
+              },
             ),
             const SizedBox(
               height: Spacing.medium,
             ),
             RoundedButton(
               text: 'UPDATE DATA',
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, NamedRoute.update_user_page);
+              },
             ),
             const SizedBox(
               height: Spacing.medium,

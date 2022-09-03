@@ -64,4 +64,20 @@ class _UsersListScreenState extends State<UsersListScreen> {
       return null;
     }
   }
+
+  Future<User?> _readSingleUser() async {
+    try {
+      final docUser =
+          FirebaseFirestore.instance.collection('/users').doc('userId');
+      final snapshot = await docUser.get();
+      if (snapshot.exists) {
+        return User.fromJson(snapshot.data()!);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print('error --> $e');
+      return null;
+    }
+  }
 }
