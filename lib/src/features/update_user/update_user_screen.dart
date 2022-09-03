@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:meli_flutter_app/src/core/navigation/named_route.dart';
 import 'package:meli_flutter_app/src/theme/spacing.dart';
 import 'package:meli_flutter_app/src/widgets/CustomTextField.dart';
 import 'package:meli_flutter_app/src/widgets/rounded_button.dart';
@@ -46,17 +47,33 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
   }
 
   void _update() {
-    final docUser = FirebaseFirestore.instance
-        .collection('users')
-        .doc('NUV88nfHOTchg1ajZggW');
+    try {
+      final docUser = FirebaseFirestore.instance
+          .collection('users')
+          .doc('NUV88nfHOTchg1ajZggW');
 
-    docUser.update({
-      'age': '${int.parse(_ageController.text)}',
-    });
+      docUser.update({
+        'age': int.parse(_ageController.text),
+      });
 
-    ///en caso de que quisieramos editar un atributo dentro de un objeto, seria:
-    //  docUser.update({
-    //   'city.name': 'Barranquilla',
-    // });
+      ///en caso de que quisieramos editar un atributo dentro de un objeto, seria:
+      //  docUser.update({
+      //   'city.name': 'Barranquilla',
+      // });
+
+      ///En caso de querer reemplazar toda la data(campos) de ese doc(user) por data y campos nuevos, es:
+      //  docUser.set({
+      //   'name': 'Sydney',
+      //   'ocupation':'Systems Engineer',
+      // });
+
+      ///En caso de querer borrar un campo (con todo y campo, no  el valor)
+      //  docUser.update({
+      //   'name': FieldValue.delete(),
+      // });
+      Navigator.popUntil(context, ModalRoute.withName(NamedRoute.home));
+    } catch (e) {
+      print(e);
+    }
   }
 }

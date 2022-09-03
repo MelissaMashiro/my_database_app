@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
             RoundedButton(
               text: 'DELETE DATA',
               onTap: () {
-                Navigator.pushNamed(context, NamedRoute.users_list_page);
+                Navigator.pushNamed(context, NamedRoute.delete_user_page);
               },
             ),
             const SizedBox(
