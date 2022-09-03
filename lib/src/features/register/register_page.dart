@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:meli_flutter_app/src/core/navigation/named_route.dart';
+import 'package:meli_flutter_app/src/models/user.dart';
 import 'package:meli_flutter_app/src/theme/theme.dart';
 import 'package:meli_flutter_app/src/widgets/CustomTextField.dart';
 import 'package:meli_flutter_app/src/widgets/rounded_button.dart';
@@ -13,14 +16,16 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   late TextEditingController _emailController;
-
   late TextEditingController _passwordController;
+  late TextEditingController _nameController;
+  late TextEditingController _ageController;
 
   @override
   void initState() {
     _emailController = TextEditingController();
-
     _passwordController = TextEditingController();
+    _nameController = TextEditingController();
+    _ageController = TextEditingController();
     super.initState();
   }
 
@@ -49,6 +54,17 @@ class _RegisterPageState extends State<RegisterPage> {
                 const SizedBox(
                   height: Spacing.medium,
                 ),
+                CustomTextField(
+                  controller: _nameController,
+                  hintText: 'Name',
+                ),
+                const SizedBox(
+                  height: Spacing.medium,
+                ),
+                CustomTextField(
+                  controller: _ageController,
+                  hintText: 'Age',
+                ),
                 //email
                 CustomTextField(
                   controller: _emailController,
@@ -67,7 +83,15 @@ class _RegisterPageState extends State<RegisterPage> {
                   height: Spacing.large,
                 ),
                 //button
-                const RoundedButton(text: 'Register'),
+                RoundedButton(
+                  text: 'Register',
+                  onTap: () => _createUser(
+                    name: _nameController.text,
+                    email: _emailController.text,
+                    age: int.parse(_ageController.text),
+                    password: _passwordController.text,
+                  ),
+                ),
                 const SizedBox(
                   height: Spacing.medium,
                 ),
@@ -77,5 +101,37 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
       ),
     );
+  }
+
+  Future _createUser({
+    required String name,
+    required String email,
+    required int age,
+    required String password,
+  }) async {
+    try {
+      //reference to document
+
+      //con un id especificado
+      //final docUser = FirebaseFirestore.instance.collection('users').doc('my-id1');
+
+      //Crea id automatico
+      final docUser = FirebaseFirestore.instance.collection('users').doc();
+
+      final newUser = User(
+        id: docUser.id,
+        name: name,
+        age: age,
+        email: email,
+        password: password,
+      );
+
+      ///Create document and write data on firestore
+      await docUser.set(newUser.toJson());
+
+      Navigator.popUntil(context, ModalRoute.withName(NamedRoute.login));
+    } catch (e) {
+      print('ERROR');
+    }
   }
 }

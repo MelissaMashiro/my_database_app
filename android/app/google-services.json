@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "947233255575",
+    "project_id": "meli-flutter-app",
+    "storage_bucket": "meli-flutter-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:947233255575:android:23772f20bdb6318d65b9d2",
+        "android_client_info": {
+          "package_name": "com.example.meli_flutter_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "947233255575-29lp1p5m63rue1qg9d5ilqqibhu5i70e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoMLk90BDXzKBYrYVJFIYDCc5Jx78iPYM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "947233255575-29lp1p5m63rue1qg9d5ilqqibhu5i70e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

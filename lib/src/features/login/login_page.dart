@@ -79,12 +79,18 @@ class _LoginPageState extends State<LoginPage> {
                   height: Spacing.large,
                 ),
                 //button
-                const RoundedButton(text: 'Sign In'),
+                RoundedButton(
+                  text: 'Sign In',
+                  onTap: () {
+                    Navigator.pushNamed(context, NamedRoute.home);
+                  },
+                ),
                 const SizedBox(
                   height: Spacing.medium,
                 ),
                 GestureDetector(
-                  onTap: () => Navigator.pushNamed(context, NamedRoute.register),
+                  onTap: () =>
+                      Navigator.pushNamed(context, NamedRoute.register),
                   child: const Text(
                     'Not a member? \n Register Now',
                     style: TextStyle(
