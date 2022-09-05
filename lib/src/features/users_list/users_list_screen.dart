@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:meli_flutter_app/src/models/user.dart';
 
@@ -10,6 +11,13 @@ class UsersListScreen extends StatefulWidget {
 }
 
 class _UsersListScreenState extends State<UsersListScreen> {
+  final FirebaseAnalytics _analytics = FirebaseAnalytics.instance;
+  @override
+  void initState() {
+    _analytics.setCurrentScreen(screenName: 'Read users Screen');
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

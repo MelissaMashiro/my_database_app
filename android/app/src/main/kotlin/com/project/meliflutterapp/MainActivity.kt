@@ -1,4 +1,4 @@
-package com.example.meli_flutter_app
+package com.project.meliflutterapp
 
 import io.flutter.embedding.android.FlutterActivity
 

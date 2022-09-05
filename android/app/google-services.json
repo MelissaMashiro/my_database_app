@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:947233255575:android:23772f20bdb6318d65b9d2",
+        "mobilesdk_app_id": "1:947233255575:android:193b0cb4d7c53e1265b9d2",
         "android_client_info": {
-          "package_name": "com.example.meli_flutter_app"
+          "package_name": "com.project.meliflutterapp"
         }
       },
       "oauth_client": [

@@ -1,16 +1,36 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:meli_flutter_app/src/core/navigation/named_route.dart';
 import 'package:meli_flutter_app/src/theme/spacing.dart';
 import 'package:meli_flutter_app/src/widgets/rounded_button.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({Key? key, this.analytics}) : super(key: key);
+  final FirebaseAnalytics? analytics;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final FirebaseAnalytics _analytics = FirebaseAnalytics.instance;
+  @override
+  void initState() {
+    print('init state');
+    if (widget.analytics != null) {
+      // print('enviado metrica-->');
+      // widget.analytics!.setUserId(id: 'some-user-id');
+      // widget.analytics!.logEvent(
+      //     name: 'app_in_home_page', parameters: {'nombre_persona': 'Melissa'});
+    }
+    _analytics.setUserId(id: 'otro-user-id');
+    // _analytics.logEvent(
+    //     name: 'app_in_home_page', parameters: {'nombre_persona': 'Melissta'});
+      //_analytics.logEvent(  name: 'app_in_home_page', parameters: {'nombre_persona': 'Melissta'});
+    _analytics.setCurrentScreen(screenName: 'Home Screen');
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
