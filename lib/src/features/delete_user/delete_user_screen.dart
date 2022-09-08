@@ -29,7 +29,7 @@ class DeleteUserScreen extends StatelessWidget {
                     title: Text(
                       users[index].id,
                     ),
-                    onTap:()=> _deleteUser(users[index].id),
+                    onTap: () => _deleteUser(users[index].id),
                   );
                 });
           } else {
@@ -42,13 +42,11 @@ class DeleteUserScreen extends StatelessWidget {
     );
   }
 
-void _deleteUser(String userId){
-  final docUser = FirebaseFirestore.instance
-        .collection('users')
-        .doc(userId);
+  void _deleteUser(String userId) {
+    final docUser = FirebaseFirestore.instance.collection('users').doc(userId);
 
-        docUser.delete();
-}
+    docUser.delete();
+  }
 
   Stream<List<User>>? _readUsers() {
     try {
