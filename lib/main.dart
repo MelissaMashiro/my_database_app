@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
+import 'package:meli_flutter_app/src/features/users_list/users_list_provider.dart';
+import 'package:provider/provider.dart';
 import 'src/core/navigation/app_router.dart';
 
 void main() async {
@@ -15,13 +16,21 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => UserListProvider()),
+      ],
+      child: Consumer<UserListProvider>(
+        builder: (_, themeProviderRef, __) => MaterialApp(
+          color: Colors.deepPurple,
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          onGenerateRoute: AppRouter.generatedRoutes,
+        ),
       ),
-      onGenerateRoute: AppRouter.generatedRoutes,
     );
   }
 }

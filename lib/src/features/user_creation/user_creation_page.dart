@@ -1,29 +1,30 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meli_flutter_app/src/core/navigation/named_route.dart';
-import 'package:meli_flutter_app/src/models/user.dart';
+import 'package:meli_flutter_app/src/features/users_list/users_list_provider.dart';
 import 'package:meli_flutter_app/src/theme/theme.dart';
 import 'package:meli_flutter_app/src/widgets/CustomTextField.dart';
 import 'package:meli_flutter_app/src/widgets/rounded_button.dart';
+import 'package:provider/provider.dart';
 
-class RegisterPage extends StatefulWidget {
-  const RegisterPage({Key? key}) : super(key: key);
-
+class UserCreationPage extends StatefulWidget {
+  const UserCreationPage({
+    Key? key,
+  }) : super(key: key);
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  State<UserCreationPage> createState() => _UserCreationPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _UserCreationPageState extends State<UserCreationPage> {
   late TextEditingController _emailController;
-  late TextEditingController _passwordController;
+  late TextEditingController _lastnameController;
   late TextEditingController _nameController;
   late TextEditingController _ageController;
 
   @override
   void initState() {
     _emailController = TextEditingController();
-    _passwordController = TextEditingController();
+    _lastnameController = TextEditingController();
     _nameController = TextEditingController();
     _ageController = TextEditingController();
     super.initState();
@@ -32,6 +33,9 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.deepPurple,
+      ),
       backgroundColor: Colors.grey[300],
       body: SafeArea(
         child: Center(
@@ -48,11 +52,18 @@ class _RegisterPageState extends State<RegisterPage> {
                   height: Spacing.medium * 3,
                 ),
                 Text(
-                  'REGISTRATION',
+                  'CREATING NEW USER',
                   style: GoogleFonts.bebasNeue(fontSize: 36.0),
                 ),
                 const SizedBox(
                   height: Spacing.medium,
+                ),
+                const Text(
+                  'Nombre',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15.0,
+                  ),
                 ),
                 CustomTextField(
                   controller: _nameController,
@@ -61,11 +72,27 @@ class _RegisterPageState extends State<RegisterPage> {
                 const SizedBox(
                   height: Spacing.medium,
                 ),
-                CustomTextField(
-                  controller: _ageController,
-                  hintText: 'Age',
+                const Text(
+                  'Apellido',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15.0,
+                  ),
                 ),
-                //email
+                CustomTextField(
+                  controller: _lastnameController,
+                  hintText: 'Lastname',
+                ),
+                const SizedBox(
+                  height: Spacing.medium,
+                ),
+                const Text(
+                  'Email',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15.0,
+                  ),
+                ),
                 CustomTextField(
                   controller: _emailController,
                   hintText: 'Email',
@@ -73,24 +100,34 @@ class _RegisterPageState extends State<RegisterPage> {
                 const SizedBox(
                   height: Spacing.medium,
                 ),
-                //password
-                CustomTextField(
-                  controller: _passwordController,
-                  hintText: 'Password',
-                  isObscureText: true,
+                const Text(
+                  'Edad',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15.0,
+                  ),
                 ),
+                CustomTextField(
+                  controller: _ageController,
+                  hintText: 'Age',
+                ),
+                //password
                 const SizedBox(
                   height: Spacing.large,
                 ),
                 //button
                 RoundedButton(
-                  text: 'Register',
-                  onTap: () => _createUser(
-                    name: _nameController.text,
-                    email: _emailController.text,
-                    age: int.parse(_ageController.text),
-                    password: _passwordController.text,
-                  ),
+                  text: 'CREAR',
+                  onTap: () async {
+                    await context.read<UserListProvider>().createUser(
+                          name: _nameController.text,
+                          email: _emailController.text,
+                          age: int.parse(_ageController.text),
+                          lastname: _lastnameController.text,
+                        );
+                    Navigator.popUntil(context,
+                        ModalRoute.withName(NamedRoute.users_list_page));
+                  },
                 ),
                 const SizedBox(
                   height: Spacing.medium,
@@ -103,35 +140,4 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Future _createUser({
-    required String name,
-    required String email,
-    required int age,
-    required String password,
-  }) async {
-    try {
-      //reference to document
-
-      //con un id especificado
-      //final docUser = FirebaseFirestore.instance.collection('users').doc('my-id1');
-
-      //Crea id automatico
-      final docUser = FirebaseFirestore.instance.collection('users').doc();
-
-      final newUser = User(
-        id: docUser.id,
-        name: name,
-        age: age,
-        email: email,
-        password: password,
-      );
-
-      ///Create document and write data on firestore
-      await docUser.set(newUser.toJson());
-
-      Navigator.popUntil(context, ModalRoute.withName(NamedRoute.login));
-    } catch (e) {
-      print('ERROR');
-    }
-  }
 }

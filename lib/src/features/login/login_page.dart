@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -90,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 GestureDetector(
                   onTap: () =>
-                      Navigator.pushNamed(context, NamedRoute.register),
+                      Navigator.pushNamed(context, NamedRoute.user_creation),
                   child: const Text(
                     'Not a member? \n Register Now',
                     style: TextStyle(

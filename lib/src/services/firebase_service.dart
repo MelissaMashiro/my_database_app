@@ -6,7 +6,7 @@ class FirebaseService {
   static final FirebaseService _instance = FirebaseService._internal();
   static FirebaseService get instance => _instance;
 
-  Stream<List<User>>? _readUsers() {
+  Stream<List<User>>? readUsers() {
     try {
       final list =
           FirebaseFirestore.instance.collection('/users').snapshots().map(
@@ -20,16 +20,29 @@ class FirebaseService {
               );
       return list;
     } catch (e) {
-      print('error --> $e');
+      throw Exception();
+    }
+  }
+
+  Future<User?> readSingleUser(String userId) async {
+    try {
+      final docUser =
+          FirebaseFirestore.instance.collection('/users').doc(userId);
+      final snapshot = await docUser.get();
+      if (snapshot.exists) {
+        return User.fromJson(snapshot.data()!);
+      }
+      return null;
+    } catch (e) {
       return null;
     }
   }
 
-  Future _createUser({
+  Future<void> createUser({
     required String name,
+    required String lastname,
     required String email,
     required int age,
-    required String password,
   }) async {
     try {
       //Asi se crea con un id especifico
@@ -41,9 +54,9 @@ class FirebaseService {
       final newUser = User(
         id: docUser.id,
         name: name,
+        lastname: lastname,
         age: age,
         email: email,
-        password: password,
       );
 
       ///Create document and write data on firestore
@@ -51,44 +64,37 @@ class FirebaseService {
 
       //  Navigator.popUntil(context, ModalRoute.withName(NamedRoute.login));
     } catch (e) {
-      print('ERROR');
+      throw Exception();
     }
   }
 
-  void _deleteUser(String userId) {
+  Future<void> deleteUser(String userId) async {
     final docUser = FirebaseFirestore.instance.collection('users').doc(userId);
 
-    docUser.delete();
+    await docUser.delete();
   }
 
-  void _updateAge(int newAge) {
+  Future<void> updateUser({
+    required String userEditingId,
+    required String name,
+    required String lastname,
+    required String email,
+    required int age,
+  }) async {
     try {
-      final docUser = FirebaseFirestore.instance
-          .collection('users')
-          .doc('NUV88nfHOTchg1ajZggW');
+      final docUser =
+          FirebaseFirestore.instance.collection('users').doc(userEditingId);
 
-      docUser.update({
-        'age': newAge,
+      await docUser.update({
+        'name': name,
+        'lastname': lastname,
+        'email': email,
+        'age': age,
       });
 
-      ///en caso de que quisieramos editar un atributo dentro de un objeto, seria:
-      //  docUser.update({
-      //   'city.name': 'Barranquilla',
-      // });
-
-      ///En caso de querer reemplazar toda la data(campos) de ese doc(user) por data y campos nuevos, es:
-      //  docUser.set({
-      //   'name': 'Sydney',
-      //   'ocupation':'Systems Engineer',
-      // });
-
-      ///En caso de querer borrar un campo (con todo y campo, no  el valor)
-      //  docUser.update({
-      //   'name': FieldValue.delete(),
-      // });
-      // Navigator.popUntil(context, ModalRoute.withName(NamedRoute.home));
+      // Navigator.popUntil(  context, ModalRoute.withName(NamedRoute.users_list_page));
     } catch (e) {
-      print(e);
+      throw Exception();
     }
   }
 }
