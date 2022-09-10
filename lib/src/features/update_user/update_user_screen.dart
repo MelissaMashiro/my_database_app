@@ -13,7 +13,7 @@ class UpdateUserScreen extends StatefulWidget {
     required this.userId,
     Key? key,
   }) : super(key: key);
-  final String userId;
+  final dynamic userId;
 
   @override
   State<UpdateUserScreen> createState() => _UpdateUserScreenState();

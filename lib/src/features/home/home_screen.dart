@@ -34,9 +34,10 @@ class _HomeScreenState extends State<HomeScreen> {
               height: Spacing.medium,
             ),
             RoundedButton(
-              text: 'READ DATA',
+              text: 'USE SQFLITE',
               onTap: () {
-                //Navigator.pushNamed(context, NamedRoute.users_list_page);
+                userListProvider.storageDataType = StorageDataType.sqflite;
+                Navigator.pushNamed(context, NamedRoute.users_list_page);
               },
             ),
           ],

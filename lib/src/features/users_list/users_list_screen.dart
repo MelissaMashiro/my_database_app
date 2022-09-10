@@ -13,6 +13,12 @@ class UsersListScreen extends StatefulWidget {
 
 class _UsersListScreenState extends State<UsersListScreen> {
   @override
+  void initState() {
+    context.read<UserListProvider>().readUsers();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -29,61 +35,53 @@ class _UsersListScreenState extends State<UsersListScreen> {
         ],
       ),
       backgroundColor: Colors.grey[200],
-      body: StreamBuilder<List<User>>(
-        stream: context.read<UserListProvider>().readUsers(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            final users = snapshot.data!;
-            return ListView.builder(
-                itemCount: users.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                    onLongPress: () => Navigator.pushNamed(
-                      context,
-                      NamedRoute.update_user_page,
-                      arguments: {
-                        'userId': users[index].id,
-                      },
-                    ),
-                    leading: PopupMenuButton<int>(
-                      itemBuilder: (context) => [
-                        PopupMenuItem(
-                          value: 1,
-                          child: Row(
-                            children: [
-                              const Icon(Icons.delete),
-                              const SizedBox(
-                                // sized box with width 10
-                                width: 10,
-                              ),
-                              const Text('Delete User')
-                            ],
-                          ),
-                          onTap: () => context
-                              .read<UserListProvider>()
-                              .deleteUser(users[index].id),
+      body: Consumer<UserListProvider>(builder: (_, userListProvider, __) {
+        print('consumiendo---->');
+        final users = context.read<UserListProvider>().userList;
+        return ListView.builder(
+          itemCount: users.length,
+          itemBuilder: (BuildContext context, int index) {
+            return ListTile(
+              onLongPress: () => Navigator.pushNamed(
+                context,
+                NamedRoute.update_user_page,
+                arguments: {
+                  'userId': users[index].id,
+                },
+              ).then((_) => userListProvider.readUsers()),
+              leading: PopupMenuButton<int>(
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                    value: 1,
+                    child: Row(
+                      children: [
+                        const Icon(Icons.delete),
+                        const SizedBox(
+                          width: 10,
                         ),
+                        const Text('Delete User')
                       ],
                     ),
-                    trailing: Text(
-                      'email: ${users[index].email} Age: ${users[index].age}',
-                      style: const TextStyle(
-                        color: Colors.deepPurple,
-                        fontSize: 15,
-                      ),
-                    ),
-                    title: Text(
-                      '${users[index].name} ${users[index].lastname}',
-                    ),
-                  );
-                });
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
+                    onTap: () => context
+                        .read<UserListProvider>()
+                        .deleteUser(users[index].id!),
+                  ),
+                ],
+              ),
+              trailing: Text(
+                'email: ${users[index].email} Age: ${users[index].age}',
+                style: const TextStyle(
+                  color: Colors.deepPurple,
+                  fontSize: 15,
+                ),
+              ),
+              title: Text(
+                '${users[index].name} ${users[index].lastname}',
+              ),
             );
-          }
-        },
-      ),
+          },
+        );
+      }),
     );
   }
 }

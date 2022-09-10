@@ -6,7 +6,7 @@ class FirebaseService {
   static final FirebaseService _instance = FirebaseService._internal();
   static FirebaseService get instance => _instance;
 
-  Stream<List<User>>? readUsers() {
+  Stream<List<User>>? readUsersStream() {
     try {
       final list =
           FirebaseFirestore.instance.collection('/users').snapshots().map(
@@ -19,6 +19,27 @@ class FirebaseService {
                     .toList(),
               );
       return list;
+    } catch (e) {
+      throw Exception();
+    }
+  }
+
+  Future<List<User>> readUsers() async {
+    try {
+      var usersList = <User>[];
+      final data = await FirebaseFirestore.instance.collection('/users').get();
+      for (var user in data.docs) {
+        final newUser = User(
+          id: user.data()['id'],
+          name: user.data()['name'],
+          lastname: user.data()['lastname'],
+          age: user.data()['age'],
+          email: user.data()['email'],
+        );
+        usersList.add(newUser);
+      }
+      print('lista de usuarios firebase leidos---> $usersList');
+      return usersList;
     } catch (e) {
       throw Exception();
     }
@@ -39,10 +60,7 @@ class FirebaseService {
   }
 
   Future<void> createUser({
-    required String name,
-    required String lastname,
-    required String email,
-    required int age,
+    required User user,
   }) async {
     try {
       //Asi se crea con un id especifico
@@ -53,10 +71,10 @@ class FirebaseService {
 
       final newUser = User(
         id: docUser.id,
-        name: name,
-        lastname: lastname,
-        age: age,
-        email: email,
+        name: user.name,
+        lastname: user.lastname,
+        age: user.age,
+        email: user.email,
       );
 
       ///Create document and write data on firestore
@@ -76,20 +94,17 @@ class FirebaseService {
 
   Future<void> updateUser({
     required String userEditingId,
-    required String name,
-    required String lastname,
-    required String email,
-    required int age,
+    required User user,
   }) async {
     try {
       final docUser =
           FirebaseFirestore.instance.collection('users').doc(userEditingId);
 
       await docUser.update({
-        'name': name,
-        'lastname': lastname,
-        'email': email,
-        'age': age,
+        'name': user.name,
+        'lastname': user.lastname,
+        'email': user.email,
+        'age': user.age,
       });
 
       // Navigator.popUntil(  context, ModalRoute.withName(NamedRoute.users_list_page));

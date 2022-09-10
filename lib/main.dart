@@ -20,16 +20,14 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => UserListProvider()),
       ],
-      child: Consumer<UserListProvider>(
-        builder: (_, themeProviderRef, __) => MaterialApp(
-          color: Colors.deepPurple,
-          debugShowCheckedModeBanner: false,
-          title: 'Flutter Demo',
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
-          onGenerateRoute: AppRouter.generatedRoutes,
+      child: MaterialApp(
+        color: Colors.deepPurple,
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
         ),
+        onGenerateRoute: AppRouter.generatedRoutes,
       ),
     );
   }
