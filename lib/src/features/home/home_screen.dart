@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             RoundedButton(
               backgroundColor: Colors.orangeAccent,
-              text: 'USE FIREBASE CLOUD',
+              text: 'FIREBASE DATABASE',
               onTap: () {
                 userListProvider.storageDataType = StorageDataType.firebase;
                 Navigator.pushNamed(context, NamedRoute.users_list_page);
@@ -34,9 +34,17 @@ class _HomeScreenState extends State<HomeScreen> {
               height: Spacing.medium,
             ),
             RoundedButton(
-              text: 'USE SQFLITE',
+              text: 'SQFLITE DATABASE',
               onTap: () {
                 userListProvider.storageDataType = StorageDataType.sqflite;
+                Navigator.pushNamed(context, NamedRoute.users_list_page);
+              },
+            ),
+            RoundedButton(
+              backgroundColor: Colors.lightBlueAccent,
+              text: 'HIVE DATABASE',
+              onTap: () {
+                userListProvider.storageDataType = StorageDataType.hive;
                 Navigator.pushNamed(context, NamedRoute.users_list_page);
               },
             ),

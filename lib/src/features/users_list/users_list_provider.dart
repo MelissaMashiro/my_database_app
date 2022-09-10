@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:meli_flutter_app/src/databases/firebase_service.dart';
+import 'package:meli_flutter_app/src/databases/sqflite_database.dart';
 import 'package:meli_flutter_app/src/models/user.dart';
-import 'package:meli_flutter_app/src/services/firebase_service.dart';
-import 'package:meli_flutter_app/src/services/sqflite_database.dart';
 
 enum StorageDataType {
   firebase,

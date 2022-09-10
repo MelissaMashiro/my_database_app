@@ -34,7 +34,6 @@ class SqfliteDatabase {
   }
 
   Future<Database> _init() async {
-    print('iniciando database--->');
     return await openDatabase(
       join(await getDatabasesPath(), 'users.db'),
       version: 1,
@@ -43,14 +42,11 @@ class SqfliteDatabase {
   }
 
   Future<List<User>> readUsers() async {
-    print('leyendo usuarios--->');
     var db = await instance.database; //reference to the database unic instance
     var users = await db.query(usersTable, orderBy: 'id');
     // ignore: omit_local_variable_types
     List<User> usersList =
         users.isNotEmpty ? users.map((e) => User.fromJson(e)).toList() : [];
-    print('lista de usuarios---> $usersList');
-
     return usersList;
   }
 
@@ -64,16 +60,11 @@ class SqfliteDatabase {
     // ignore: omit_local_variable_types
     List<User> usersList =
         users.isNotEmpty ? users.map((e) => User.fromJson(e)).toList() : [];
-    print('usuario encontrado ---> ${usersList.first}');
-
     return usersList.first;
   }
 
   Future<int> addUser(User user) async {
     var db = await instance.database;
-    print('creando nuevo usuario --->');
-    //    await db.rawInsert('INSERT INTO $table ($columnName, $columnAge) VALUES("Bob", 23)');
-
     return await db.insert(usersTable, user.toJson());
   }
 
@@ -84,12 +75,10 @@ class SqfliteDatabase {
       where: 'id=?',
       whereArgs: [userId],
     );
-    print('usuario removido --->');
   }
 
   Future<int> update(User user) async {
     var db = await instance.database;
-    print('actualizando usuario --->');
 
     return await db.update(
       usersTable,
