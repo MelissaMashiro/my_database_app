@@ -27,7 +27,8 @@ class _UsersListScreenState extends State<UsersListScreen> {
         actions: [
           IconButton(
             onPressed: () =>
-                Navigator.pushNamed(context, NamedRoute.user_creation),
+                Navigator.pushNamed(context, NamedRoute.user_creation)
+                    .then((_) => context.read<UserListProvider>().readUsers()),
             icon: const Icon(
               Icons.add,
             ),

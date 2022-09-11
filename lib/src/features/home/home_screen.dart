@@ -40,6 +40,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.pushNamed(context, NamedRoute.users_list_page);
               },
             ),
+             const SizedBox(
+              height: Spacing.medium,
+            ),
             RoundedButton(
               backgroundColor: Colors.lightBlueAccent,
               text: 'HIVE DATABASE',

@@ -1,12 +1,16 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:meli_flutter_app/src/databases/hive_database.dart';
 import 'package:meli_flutter_app/src/features/users_list/users_list_provider.dart';
 import 'package:provider/provider.dart';
 import 'src/core/navigation/app_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // Initialize Firebase
   await Firebase.initializeApp();
+  // Initialize Hice
+  await HiveDatabase.instance.init();
   runApp(const MyApp());
 }
 

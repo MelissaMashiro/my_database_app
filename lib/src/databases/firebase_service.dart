@@ -93,12 +93,11 @@ class FirebaseService {
   }
 
   Future<void> updateUser({
-    required String userEditingId,
     required User user,
   }) async {
     try {
       final docUser =
-          FirebaseFirestore.instance.collection('users').doc(userEditingId);
+          FirebaseFirestore.instance.collection('users').doc(user.id);
 
       await docUser.update({
         'name': user.name,

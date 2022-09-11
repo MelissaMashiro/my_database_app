@@ -1,3 +1,8 @@
+import 'package:hive/hive.dart';
+
+part 'user.g.dart';
+
+@HiveType(typeId: 0)
 class User {
   User({
     this.id,
@@ -7,10 +12,15 @@ class User {
     required this.email,
   });
 
+  @HiveField(0)
   final dynamic id;
+  @HiveField(1)
   final String name;
+  @HiveField(2)
   final String lastname;
+  @HiveField(3)
   final int age;
+  @HiveField(4)
   final String email;
 
   static User fromJson(Map<String, dynamic> json) => User(

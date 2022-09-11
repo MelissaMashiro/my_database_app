@@ -88,12 +88,3 @@ class SqfliteDatabase {
     );
   }
 }
-
-class SQLiteHelper {
-  Future<List<Map<String, dynamic>>> get Users async {
-    return await SqfliteDatabase._database!.query(
-      usersTable,
-      orderBy: 'id DESC',
-    );
-  }
-}

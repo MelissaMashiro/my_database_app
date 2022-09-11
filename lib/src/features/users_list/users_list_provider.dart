@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meli_flutter_app/src/databases/firebase_service.dart';
+import 'package:meli_flutter_app/src/databases/hive_database.dart';
 import 'package:meli_flutter_app/src/databases/sqflite_database.dart';
 import 'package:meli_flutter_app/src/models/user.dart';
 
@@ -16,8 +17,8 @@ class UserListProvider with ChangeNotifier {
 
   List<User> _usersList = [];
   List<User> get userList => _usersList;
+
   set userList(List<User> list) {
-    print('lista obtenida: ${list.length}');
     _usersList = list;
     notifyListeners();
   }
@@ -50,6 +51,11 @@ class UserListProvider with ChangeNotifier {
           user,
         );
         break;
+      case StorageDataType.hive:
+        await HiveDatabase.instance.addUser(
+          user,
+        );
+        break;
       default:
     }
   }
@@ -63,7 +69,10 @@ class UserListProvider with ChangeNotifier {
       case StorageDataType.sqflite:
         await SqfliteDatabase.instance.removeUser(userId);
         await readUsers();
-
+        break;
+      case StorageDataType.hive:
+        await HiveDatabase.instance.removeUser(userId);
+        await readUsers();
         break;
       default:
     }
@@ -75,14 +84,13 @@ class UserListProvider with ChangeNotifier {
         return await FirebaseService.instance.readSingleUser(userId);
       case StorageDataType.sqflite:
         return await SqfliteDatabase.instance.readSingleUser(userId);
+      case StorageDataType.hive:
+        return await HiveDatabase.instance.readSingleUser(userId);
       default:
         return null;
     }
   }
 
-//TODO, TRAER DATA D FIREBASE EN FUTURE
-//TODO: ACTUALIZAR VISTA CUANDO  SE BORRA UN USUSARIO
-  //Stream<List<User>>? readUsers() {
   Future<void> readUsers() async {
     switch (_storageDataType) {
       case StorageDataType.firebase:
@@ -91,7 +99,9 @@ class UserListProvider with ChangeNotifier {
       case StorageDataType.sqflite:
         userList = await SqfliteDatabase.instance.readUsers();
         break;
-
+      case StorageDataType.hive:
+        userList = await HiveDatabase.instance.readUsers();
+        break;
       default:
         return Future.value([]);
     }
@@ -114,12 +124,16 @@ class UserListProvider with ChangeNotifier {
     switch (_storageDataType) {
       case StorageDataType.firebase:
         await FirebaseService.instance.updateUser(
-          userEditingId: userEditingId,
           user: user,
         );
         break;
       case StorageDataType.sqflite:
         await SqfliteDatabase.instance.update(
+          user,
+        );
+        break;
+      case StorageDataType.hive:
+        await HiveDatabase.instance.updateUser(
           user,
         );
         break;
