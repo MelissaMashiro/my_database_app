@@ -38,7 +38,6 @@ class FirebaseService {
         );
         usersList.add(newUser);
       }
-      print('lista de usuarios firebase leidos---> $usersList');
       return usersList;
     } catch (e) {
       throw Exception();

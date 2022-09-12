@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:meli_flutter_app/src/databases/firebase_service.dart';
 import 'package:meli_flutter_app/src/databases/hive_database.dart';
+import 'package:meli_flutter_app/src/databases/sembast_database.dart';
 import 'package:meli_flutter_app/src/databases/sqflite_database.dart';
 import 'package:meli_flutter_app/src/models/user.dart';
 
 enum StorageDataType {
   firebase,
-  flutterSecureStorage,
   sqflite,
   sembost,
   hive,
@@ -56,6 +56,11 @@ class UserListProvider with ChangeNotifier {
           user,
         );
         break;
+      case StorageDataType.sembost:
+        await SembastDatabase.instance.insertUser(
+          user,
+        );
+        break;
       default:
     }
   }
@@ -64,15 +69,19 @@ class UserListProvider with ChangeNotifier {
     switch (_storageDataType) {
       case StorageDataType.firebase:
         await FirebaseService.instance.deleteUser(userId);
-        await readUsers();
+        await readAllUsers();
         break;
       case StorageDataType.sqflite:
         await SqfliteDatabase.instance.removeUser(userId);
-        await readUsers();
+        await readAllUsers();
         break;
       case StorageDataType.hive:
         await HiveDatabase.instance.removeUser(userId);
-        await readUsers();
+        await readAllUsers();
+        break;
+      case StorageDataType.sembost:
+        await SembastDatabase.instance.delete(userId);
+        await readAllUsers();
         break;
       default:
     }
@@ -86,12 +95,14 @@ class UserListProvider with ChangeNotifier {
         return await SqfliteDatabase.instance.readSingleUser(userId);
       case StorageDataType.hive:
         return await HiveDatabase.instance.readSingleUser(userId);
+      case StorageDataType.sembost:
+        return await SembastDatabase.instance.getSingleUser(userId);
       default:
         return null;
     }
   }
 
-  Future<void> readUsers() async {
+  Future<void> readAllUsers() async {
     switch (_storageDataType) {
       case StorageDataType.firebase:
         userList = await FirebaseService.instance.readUsers();
@@ -101,6 +112,9 @@ class UserListProvider with ChangeNotifier {
         break;
       case StorageDataType.hive:
         userList = await HiveDatabase.instance.readUsers();
+        break;
+      case StorageDataType.sembost:
+        userList = await SembastDatabase.instance.getAllUsers();
         break;
       default:
         return Future.value([]);
@@ -134,6 +148,11 @@ class UserListProvider with ChangeNotifier {
         break;
       case StorageDataType.hive:
         await HiveDatabase.instance.updateUser(
+          user,
+        );
+        break;
+      case StorageDataType.sembost:
+        await SembastDatabase.instance.updateUser(
           user,
         );
         break;

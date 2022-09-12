@@ -68,6 +68,7 @@ class _UserCreationPageState extends State<UserCreationPage> {
                 CustomTextField(
                   controller: _nameController,
                   hintText: 'Name',
+                  textInputType: TextInputType.name,
                 ),
                 const SizedBox(
                   height: Spacing.medium,
@@ -96,6 +97,7 @@ class _UserCreationPageState extends State<UserCreationPage> {
                 CustomTextField(
                   controller: _emailController,
                   hintText: 'Email',
+                  textInputType: TextInputType.emailAddress,
                 ),
                 const SizedBox(
                   height: Spacing.medium,
@@ -110,12 +112,11 @@ class _UserCreationPageState extends State<UserCreationPage> {
                 CustomTextField(
                   controller: _ageController,
                   hintText: 'Age',
+                  textInputType: TextInputType.number,
                 ),
-                //password
                 const SizedBox(
                   height: Spacing.large,
                 ),
-                //button
                 RoundedButton(
                   text: 'CREAR',
                   onTap: () async {
@@ -139,5 +140,4 @@ class _UserCreationPageState extends State<UserCreationPage> {
       ),
     );
   }
-
 }

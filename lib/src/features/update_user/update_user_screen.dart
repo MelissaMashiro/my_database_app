@@ -86,6 +86,7 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
                 CustomTextField(
                   controller: _nameController,
                   hintText: 'Name',
+                  textInputType: TextInputType.name,
                 ),
                 const SizedBox(
                   height: Spacing.medium,
@@ -97,7 +98,6 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
                     fontSize: 15.0,
                   ),
                 ),
-
                 CustomTextField(
                   controller: _lastnameController,
                   hintText: 'Lastname',
@@ -115,6 +115,7 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
                 CustomTextField(
                   controller: _emailController,
                   hintText: 'Email',
+                  textInputType: TextInputType.emailAddress,
                 ),
                 const SizedBox(
                   height: Spacing.medium,
@@ -126,16 +127,14 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
                     fontSize: 15.0,
                   ),
                 ),
-
                 CustomTextField(
                   controller: _ageController,
                   hintText: 'Age',
+                  textInputType: TextInputType.number,
                 ),
-                //password
                 const SizedBox(
                   height: Spacing.large,
                 ),
-                //button
                 RoundedButton(
                   text: 'ACTUALIZAR USUARIO',
                   onTap: () async {

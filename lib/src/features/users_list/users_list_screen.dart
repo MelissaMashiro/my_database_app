@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meli_flutter_app/src/core/navigation/named_route.dart';
 import 'package:meli_flutter_app/src/features/users_list/users_list_provider.dart';
-import 'package:meli_flutter_app/src/models/user.dart';
 import 'package:provider/provider.dart';
 
 class UsersListScreen extends StatefulWidget {
@@ -14,7 +13,7 @@ class UsersListScreen extends StatefulWidget {
 class _UsersListScreenState extends State<UsersListScreen> {
   @override
   void initState() {
-    context.read<UserListProvider>().readUsers();
+    context.read<UserListProvider>().readAllUsers();
     super.initState();
   }
 
@@ -26,9 +25,9 @@ class _UsersListScreenState extends State<UsersListScreen> {
         title: const Text('Long press to Edit'),
         actions: [
           IconButton(
-            onPressed: () =>
-                Navigator.pushNamed(context, NamedRoute.user_creation)
-                    .then((_) => context.read<UserListProvider>().readUsers()),
+            onPressed: () => Navigator.pushNamed(
+                    context, NamedRoute.user_creation)
+                .then((_) => context.read<UserListProvider>().readAllUsers()),
             icon: const Icon(
               Icons.add,
             ),
@@ -37,7 +36,6 @@ class _UsersListScreenState extends State<UsersListScreen> {
       ),
       backgroundColor: Colors.grey[200],
       body: Consumer<UserListProvider>(builder: (_, userListProvider, __) {
-        print('consumiendo---->');
         final users = context.read<UserListProvider>().userList;
         return ListView.builder(
           itemCount: users.length,
@@ -49,7 +47,7 @@ class _UsersListScreenState extends State<UsersListScreen> {
                 arguments: {
                   'userId': users[index].id,
                 },
-              ).then((_) => userListProvider.readUsers()),
+              ).then((_) => userListProvider.readAllUsers()),
               leading: PopupMenuButton<int>(
                 itemBuilder: (context) => [
                   PopupMenuItem(

@@ -6,10 +6,12 @@ class CustomTextField extends StatelessWidget {
     required this.controller,
     required this.hintText,
     this.isObscureText = false,
+    this.textInputType = TextInputType.text,
   }) : super(key: key);
   final TextEditingController controller;
   final String hintText;
   final bool isObscureText;
+  final TextInputType textInputType;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -22,9 +24,10 @@ class CustomTextField extends StatelessWidget {
         ),
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: TextField(
+          keyboardType: textInputType,
           obscureText: isObscureText,
           controller: controller,
-          decoration:  InputDecoration(
+          decoration: InputDecoration(
             border: InputBorder.none,
             hintText: hintText,
           ),
