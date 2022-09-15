@@ -117,7 +117,6 @@ class UserListProvider with ChangeNotifier {
         userList = await SembastDatabase.instance.getAllUsers();
         break;
       default:
-        return Future.value([]);
     }
   }
 
