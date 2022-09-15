@@ -14,12 +14,12 @@ class SembastDatabase {
   static final SembastDatabase _instance = SembastDatabase._();
   static SembastDatabase get instance => _instance;
 
-  Completer<Database>? _dbOpenCompleter;
+   Completer<Database>? _dbOpenCompleter;
 
-  Future<Database> get database async {
-    if (_dbOpenCompleter == null) {
+   Future<Database> get database async {
+     if (_dbOpenCompleter == null) {
       _dbOpenCompleter = Completer();
-      await _openDatabase();
+       await _openDatabase();
     }
 
     return _dbOpenCompleter!.future;

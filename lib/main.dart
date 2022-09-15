@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         color: Colors.deepPurple,
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'Flutter Databases App',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
