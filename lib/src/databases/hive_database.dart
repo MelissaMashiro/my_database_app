@@ -9,8 +9,6 @@ class HiveDatabase {
   HiveDatabase._privateConstructor();
   static final HiveDatabase instance = HiveDatabase._privateConstructor();
 
-//Box == sql table
-  // var box = Hive.box('users');
 
   Future<void> init() async {
     await _adapterRegistration();
@@ -19,8 +17,6 @@ class HiveDatabase {
   }
 
   Future<void> _adapterRegistration() async {
-    //se registra el adapter para no tener q implementar los tojson ni fromjson para usar los objetos user
-    //al guardar y extraer la iformacion almacenada
     Hive.registerAdapter(UserAdapter());
   }
 
@@ -60,7 +56,6 @@ class HiveDatabase {
     final resultUser = usersList.firstWhere(
       (user) => user.id == userId,
     );
-    // User user = box.getAt(userId).cast<User>();
 
     return resultUser;
   }

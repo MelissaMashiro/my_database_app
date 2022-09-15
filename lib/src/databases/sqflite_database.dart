@@ -42,7 +42,7 @@ class SqfliteDatabase {
   }
 
   Future<List<User>> readUsers() async {
-    var db = await instance.database; //reference to the database unic instance
+    var db = await instance.database;
     var users = await db.query(usersTable, orderBy: 'id');
     // ignore: omit_local_variable_types
     List<User> usersList =

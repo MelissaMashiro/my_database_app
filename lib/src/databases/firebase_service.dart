@@ -104,8 +104,6 @@ class FirebaseService {
         'email': user.email,
         'age': user.age,
       });
-
-      // Navigator.popUntil(  context, ModalRoute.withName(NamedRoute.users_list_page));
     } catch (e) {
       throw Exception();
     }
